@@ -20,9 +20,14 @@ func NewMarsRover(loc []int, dir string, gs []int) *MarsRover {
 	return rover
 }
 
-func takeInput(moves *string) {
+func takeInput(moves *string) (err error) {
 	fmt.Println("Please input order of moves")
 	fmt.Scan(moves)
+	if *moves == "" {
+		return errors.New("string cannot be empty")
+	}
+
+	return nil
 }
 
 func validateString(moves string) (validate bool, err error) {
@@ -35,27 +40,44 @@ func validateString(moves string) (validate bool, err error) {
 	return true, nil
 }
 
+func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
+	for i := 0; i < len(moves); i = i + 1 {
+		if moves[i] == 'f' {
+			moveForward(rover)
+
+			if rover.location[0] < 0 {
+				rover.location[0] = rover.gridSize[0] - 1
+			}
+
+			if rover.location[1] < 0 {
+				rover.location[1] = rover.gridSize[1] - 1
+			}
+		}
+	}
+	return rover.location, nil
+}
+
 func moveForward(rover *MarsRover) {
 	if rover.direction == "N" {
-		rover.location[1] = rover.location[1] + 1
+		rover.location[0] = rover.location[0] - 1
 	}
 	if rover.direction == "S" {
-		rover.location[1] = rover.location[1] - 1
-	}
-	if rover.direction == "E" {
 		rover.location[0] = rover.location[0] + 1
 	}
+	if rover.direction == "E" {
+		rover.location[1] = rover.location[1] + 1
+	}
 	if rover.direction == "W" {
-		rover.location[0] = rover.location[0] - 1
+		rover.location[1] = rover.location[1] - 1
 	}
 }
 
 func main() {
 	var moves string
-	takeInput(&moves)
+	err := takeInput(&moves)
 
 	fmt.Println("Your input string: ", moves)
 
-	_, err := validateString(moves)
+	_, err = validateString(moves)
 	fmt.Print(err)
 }
