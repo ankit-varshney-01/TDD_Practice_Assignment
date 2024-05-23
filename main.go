@@ -123,7 +123,7 @@ func moveRight(curDir *string) {
 	} else if *curDir == "S" {
 		*curDir = "W"
 	} else if *curDir == "E" {
-		*curDir = "N"
+		*curDir = "S"
 	} else if *curDir == "W" {
 		*curDir = "N"
 	}
