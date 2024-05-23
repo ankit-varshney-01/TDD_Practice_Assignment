@@ -35,9 +35,22 @@ func validateString(moves string) (validate bool, err error) {
 	return true, nil
 }
 
-func main() {
-	rover := NewMarsRover([]int{0, 0}, "N", []int{50, 50})
+func moveForward(rover *MarsRover) {
+	if rover.direction == "N" {
+		rover.location[1] = rover.location[1] + 1
+	}
+	if rover.direction == "S" {
+		rover.location[1] = rover.location[1] - 1
+	}
+	if rover.direction == "E" {
+		rover.location[0] = rover.location[0] + 1
+	}
+	if rover.direction == "W" {
+		rover.location[0] = rover.location[0] - 1
+	}
+}
 
+func main() {
 	var moves string
 	takeInput(&moves)
 

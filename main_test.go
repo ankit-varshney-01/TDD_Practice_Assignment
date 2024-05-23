@@ -59,22 +59,22 @@ func TestInputString(t *testing.T) {
 }
 
 func TestForwardMove(t *testing.T) {
-	moveForward(roverNorth)
+	moveForward(&roverNorth)
 	if roverNorth.location[0] != 0 && roverNorth.location[1] != 1 {
 		t.Errorf("error in moving forward")
 	}
 
-	moveForward(roverSouth)
+	moveForward(&roverSouth)
 	if roverSouth.location[0] != 0 && roverSouth.location[1] != -1 {
 		t.Errorf("error in moving forward")
 	}
 
-	moveForward(roverEast)
+	moveForward(&roverEast)
 	if roverEast.location[0] != 1 && roverEast.location[1] != 0 {
 		t.Errorf("error in moving forward")
 	}
 
-	moveForward(roverWest)
+	moveForward(&roverWest)
 	if roverWest.location[0] != -1 && roverWest.location[1] != 0 {
 		t.Errorf("error in moving forward")
 	}
