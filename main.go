@@ -4,10 +4,13 @@ import (
 	"fmt"
 )
 
+func takeInput(moves *string) {
+	fmt.Println("Please input order of moves")
+	fmt.Scan(moves)
+}
+
 func main() {
 	var moves string
-
-	fmt.Println("Please input order of moves")
-	fmt.Scan(&moves)
+	takeInput(&moves)
 	fmt.Println(moves)
 }
