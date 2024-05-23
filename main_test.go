@@ -4,7 +4,12 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/suite"
 )
+
+type MainTestSuite struct {
+	suite.Suite
+}
 
 func TestInput(t *testing.T) {
 	moves := "ffbbff"
