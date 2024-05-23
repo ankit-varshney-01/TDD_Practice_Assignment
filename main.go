@@ -53,6 +53,9 @@ func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
 				rover.location[1] = rover.gridSize[1] - 1
 			}
 		}
+		if moves[i] == 'b' {
+			moveBackward(rover)
+		}
 	}
 	return rover.location, nil
 }
@@ -69,6 +72,21 @@ func moveForward(rover *MarsRover) {
 	}
 	if rover.direction == "W" {
 		rover.location[1] = rover.location[1] - 1
+	}
+}
+
+func moveBackward(rover *MarsRover) {
+	if rover.direction == "N" {
+		rover.location[0] = rover.location[0] + 1
+	}
+	if rover.direction == "S" {
+		rover.location[0] = rover.location[0] - 1
+	}
+	if rover.direction == "E" {
+		rover.location[1] = rover.location[1] - 1
+	}
+	if rover.direction == "W" {
+		rover.location[1] = rover.location[1] + 1
 	}
 }
 
