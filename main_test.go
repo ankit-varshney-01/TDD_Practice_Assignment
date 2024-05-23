@@ -58,23 +58,23 @@ func TestInputString(t *testing.T) {
 	require.Error(t, err)
 }
 
-func TestUpMove(t *testing.T) {
-	moveUp(roverNorth)
+func TestForwardMove(t *testing.T) {
+	moveForward(roverNorth)
 	if roverNorth.location[0] != 0 && roverNorth.location[1] != 1 {
 		t.Errorf("error in moving forward")
 	}
 
-	moveUp(roverSouth)
+	moveForward(roverSouth)
 	if roverSouth.location[0] != 0 && roverSouth.location[1] != -1 {
 		t.Errorf("error in moving forward")
 	}
 
-	moveUp(roverEast)
-	ifroverEast.location[0] != 1 &&roverEast.location[1] != 0 {
+	moveForward(roverEast)
+	if roverEast.location[0] != 1 && roverEast.location[1] != 0 {
 		t.Errorf("error in moving forward")
 	}
 
-	moveUp(roverWest)
+	moveForward(roverWest)
 	if roverWest.location[0] != -1 && roverWest.location[1] != 0 {
 		t.Errorf("error in moving forward")
 	}
