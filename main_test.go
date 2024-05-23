@@ -191,4 +191,47 @@ func (suite *MainTestSuite) TestLeftMove() {
 		assert.Equal(t, expDir, actDir)
 		require.NoError(t, err)
 	})
+	t.Run("when moving left twice facing north", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expDir := dir[1]
+		suite.marsRover.direction = dir[0]
+		_, err := executeMoves(&suite.marsRover, "ll")
+		actDir := suite.marsRover.direction
+
+		assert.Equal(t, expDir, actDir)
+		require.NoError(t, err)
+	})
+	t.Run("when moving left facing south", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expDir := dir[2]
+		_, err := executeMoves(&suite.marsRover, "l")
+		actDir := suite.marsRover.direction
+
+		assert.Equal(t, expDir, actDir)
+		require.NoError(t, err)
+	})
+	t.Run("when moving left facing east", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expDir := dir[0]
+		suite.marsRover.direction = dir[2]
+		_, err := executeMoves(&suite.marsRover, "l")
+		actDir := suite.marsRover.direction
+
+		assert.Equal(t, expDir, actDir)
+		require.NoError(t, err)
+	})
+	t.Run("when moving left facing west", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expDir := dir[1]
+		suite.marsRover.direction = dir[3]
+		_, err := executeMoves(&suite.marsRover, "l")
+		actDir := suite.marsRover.direction
+
+		assert.Equal(t, expDir, actDir)
+		require.NoError(t, err)
+	})
 }
