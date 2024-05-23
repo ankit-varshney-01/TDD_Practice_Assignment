@@ -51,6 +51,9 @@ func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
 		if moves[i] == 'l' {
 			moveLeft(&rover.direction)
 		}
+		if moves[i] == 'r' {
+			moveRight(&rover.direction)
+		}
 
 		// To handle edge cases for out of bounds move
 		if rover.location[0] < 0 {
@@ -111,6 +114,18 @@ func moveLeft(curDir *string) {
 		*curDir = "N"
 	} else if *curDir == "W" {
 		*curDir = "S"
+	}
+}
+
+func moveRight(curDir *string) {
+	if *curDir == "N" {
+		*curDir = "E"
+	} else if *curDir == "S" {
+		*curDir = "W"
+	} else if *curDir == "E" {
+		*curDir = "N"
+	} else if *curDir == "W" {
+		*curDir = "N"
 	}
 }
 
