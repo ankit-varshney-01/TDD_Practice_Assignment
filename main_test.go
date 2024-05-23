@@ -52,10 +52,10 @@ func (suite *MainTestSuite) TestInput() {
 		correctMoves := "ffbbllrrffbb"
 		incorrectMoves := "fasdnfsd"
 
-		_, err := validateString(correctMoves)
+		err := validateString(correctMoves)
 		require.NoError(t, err)
 
-		_, err = validateString(incorrectMoves)
+		err = validateString(incorrectMoves)
 		require.Error(t, err)
 	})
 }
@@ -234,6 +234,16 @@ func (suite *MainTestSuite) TestLeftMove() {
 		assert.Equal(t, expDir, actDir)
 		require.NoError(t, err)
 	})
+	t.Run("when moving backward, forward and left", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expLoc := []int{48, 1}
+		suite.marsRover.direction = dir[0]
+		actLoc, err := executeMoves(&suite.marsRover, "fflb")
+
+		assert.Equal(t, expLoc, actLoc)
+		require.NoError(t, err)
+	})
 }
 
 func (suite *MainTestSuite) TestRightMove() {
@@ -291,6 +301,19 @@ func (suite *MainTestSuite) TestRightMove() {
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
+		require.NoError(t, err)
+	})
+	t.Run("when moving backward, forward, left and right", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expLoc := []int{49, 1}
+		expdir := dir[3]
+		suite.marsRover.direction = dir[0]
+		actLoc, err := executeMoves(&suite.marsRover, "fflblfr")
+		actDir := suite.marsRover.direction
+
+		assert.Equal(t, expLoc, actLoc)
+		assert.Equal(t, expdir, actDir)
 		require.NoError(t, err)
 	})
 }

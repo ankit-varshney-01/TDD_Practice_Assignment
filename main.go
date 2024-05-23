@@ -30,14 +30,14 @@ func takeInput(moves *string) (err error) {
 	return nil
 }
 
-func validateString(moves string) (validate bool, err error) {
+func validateString(moves string) (err error) {
 	for i := 0; i < len(moves); i = i + 1 {
 		if (moves[i] != 'f') && (moves[i] != 'b') && (moves[i] != 'l') && (moves[i] != 'r') {
-			return false, errors.New("invalid character: validation failed")
+			return errors.New("invalid character/s: validation failed")
 		}
 	}
 
-	return true, nil
+	return nil
 }
 
 func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
@@ -135,6 +135,16 @@ func main() {
 
 	fmt.Println("Your input string: ", moves)
 
-	_, err = validateString(moves)
-	fmt.Print(err)
+	err = validateString(moves)
+	if err != nil {
+		fmt.Print(err)
+	} else {
+		rover := NewMarsRover([]int{0, 0}, "N", []int{50, 50})
+
+		res, err := executeMoves(rover, moves)
+		if err == nil {
+			fmt.Printf("Final Location is: %v", res)
+			fmt.Printf("Final Direction is: %s\n", rover.direction)
+		}
+	}
 }
