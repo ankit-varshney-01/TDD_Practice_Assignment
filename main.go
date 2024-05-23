@@ -57,6 +57,14 @@ func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
 		if rover.location[1] < 0 {
 			rover.location[1] = rover.gridSize[1] - 1
 		}
+
+		if rover.location[0] >= rover.gridSize[0] {
+			rover.location[0] = 0
+		}
+
+		if rover.location[1] >= rover.gridSize[1] {
+			rover.location[1] = 0
+		}
 	}
 	return rover.location, nil
 }

@@ -168,7 +168,7 @@ func (suite *MainTestSuite) TestBackwardMove() {
 	t.Run("when moving backward and forward", func(t *testing.T) {
 		suite.SetUpTest()
 
-		expLoc := []int{2, 0}
+		expLoc := []int{1, 0}
 		suite.marsRover.direction = dir[0]
 		actLoc, err := executeMoves(&suite.marsRover, "fffbbbb")
 
