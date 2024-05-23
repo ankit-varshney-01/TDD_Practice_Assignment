@@ -125,4 +125,44 @@ func (suite *MainTestSuite) TestBackwardMove() {
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
 	})
+	t.Run("when moving backward facing north - multiple backward", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expLoc := []int{2, 0}
+		suite.marsRover.direction = dir[0]
+		actLoc, err := executeMoves(&suite.marsRover, "bb")
+
+		assert.Equal(t, expLoc, actLoc)
+		require.NoError(t, err)
+	})
+	t.Run("when moving backward facing south dirn", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expLoc := []int{49, 0}
+		suite.marsRover.direction = dir[1]
+		actLoc, err := executeMoves(&suite.marsRover, "b")
+
+		assert.Equal(t, expLoc, actLoc)
+		require.NoError(t, err)
+	})
+	t.Run("when moving backward facing east dirn", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expLoc := []int{0, 49}
+		suite.marsRover.direction = dir[2]
+		actLoc, err := executeMoves(&suite.marsRover, "b")
+
+		assert.Equal(t, expLoc, actLoc)
+		require.NoError(t, err)
+	})
+	t.Run("when moving backward facing west dirn", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expLoc := []int{0, 1}
+		suite.marsRover.direction = dir[3]
+		actLoc, err := executeMoves(&suite.marsRover, "b")
+
+		assert.Equal(t, expLoc, actLoc)
+		require.NoError(t, err)
+	})
 }
