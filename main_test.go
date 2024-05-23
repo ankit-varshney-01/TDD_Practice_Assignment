@@ -176,3 +176,19 @@ func (suite *MainTestSuite) TestBackwardMove() {
 		require.NoError(t, err)
 	})
 }
+
+func (suite *MainTestSuite) TestLeftMove() {
+	t := suite.T()
+
+	t.Run("when moving left facing north", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expDir := dir[3]
+		suite.marsRover.direction = dir[0]
+		_, err := executeMoves(&suite.marsRover, "l")
+		actDir := suite.marsRover.direction
+
+		assert.Equal(t, expDir, actDir)
+		require.NoError(t, err)
+	})
+}
