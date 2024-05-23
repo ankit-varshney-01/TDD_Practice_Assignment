@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
 
 func TestInput(t *testing.T) {
 	moves := "ffbbff"
@@ -8,4 +12,15 @@ func TestInput(t *testing.T) {
 	if moves == "" {
 		t.Errorf("error in taking input of string")
 	}
+}
+
+func TestInputString(t *testing.T) {
+	correctMoves := "ffbbfff"
+	incorrectMoves := "fasdnfsd"
+
+	_, err := validateString(correctMoves)
+	require.NoError(t, err)
+
+	_, err = validateString(incorrectMoves)
+	require.Error(t, err)
 }
