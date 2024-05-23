@@ -44,17 +44,18 @@ func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
 	for i := 0; i < len(moves); i = i + 1 {
 		if moves[i] == 'f' {
 			moveForward(rover)
-
-			if rover.location[0] < 0 {
-				rover.location[0] = rover.gridSize[0] - 1
-			}
-
-			if rover.location[1] < 0 {
-				rover.location[1] = rover.gridSize[1] - 1
-			}
 		}
 		if moves[i] == 'b' {
 			moveBackward(rover)
+		}
+
+		// To handle edge cases for out of bounds move
+		if rover.location[0] < 0 {
+			rover.location[0] = rover.gridSize[0] - 1
+		}
+
+		if rover.location[1] < 0 {
+			rover.location[1] = rover.gridSize[1] - 1
 		}
 	}
 	return rover.location, nil
