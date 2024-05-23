@@ -79,3 +79,25 @@ func TestForwardMove(t *testing.T) {
 		t.Errorf("error in moving forward")
 	}
 }
+
+func TestBackwardMove(t *testing.T) {
+	moveBackward(&roverNorth)
+	if roverNorth.location[0] != 0 && roverNorth.location[1] != 0 {
+		t.Errorf("error in moving forward")
+	}
+
+	moveBackward(&roverSouth)
+	if roverSouth.location[0] != 0 && roverSouth.location[1] != 0 {
+		t.Errorf("error in moving forward")
+	}
+
+	moveBackward(&roverEast)
+	if roverEast.location[0] != 0 && roverEast.location[1] != 0 {
+		t.Errorf("error in moving forward")
+	}
+
+	moveBackward(&roverWest)
+	if roverWest.location[0] != 0 && roverWest.location[1] != 0 {
+		t.Errorf("error in moving forward")
+	}
+}
