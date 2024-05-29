@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -315,5 +316,27 @@ func (suite *MainTestSuite) TestRightMove() {
 		assert.Equal(t, expLoc, actLoc)
 		assert.Equal(t, expdir, actDir)
 		require.NoError(t, err)
+	})
+}
+
+func (suite *MainTestSuite) TestObstacles() {
+	t := suite.T()
+
+	t.Run("when incorrect obstacles array", func(t *testing.T) {
+		suite.SetUpTest()
+
+		// current marsRover grid size = [50, 50]
+		var obs [][]int
+		obs = [][]int{
+			[]int{1, 0},
+			[]int{4, 5},
+			[]int{50, 2},
+		}
+
+		obsErr := errors.New("obstacles out of bounds")
+		err := validateObstacles(obs)
+
+		assert.Equal(t, obsErr, err)
+		require.Error(t, err)
 	})
 }
