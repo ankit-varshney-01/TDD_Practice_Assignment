@@ -40,6 +40,34 @@ func validateString(moves string) (err error) {
 	return nil
 }
 
+func takeObstaclesInput(obs *[][]int, noOfObstacles int) (err error) {
+	fmt.Println("Please input obstacles locations as space seperated co-ordinates")
+
+	var x, y int
+	for i := 0; i < noOfObstacles; i = i + 1 {
+		fmt.Scan(&x, &y)
+		*obs = append(*obs, []int{x, y})
+	}
+	fmt.Scan(obs)
+	if len(*obs) == 0 {
+		return errors.New("obstacles array cannot be empty")
+	}
+
+	return nil
+}
+
+func validateObstacles(obs [][]int, marsRover *MarsRover) (err error) {
+	for i := 0; i < len(obs); i = i + 1 {
+		x, y := obs[i][0], obs[i][1]
+		fmt.Printf("x: %d, y: %d\n", x, y)
+		if x < 0 || x >= marsRover.gridSize[0] || y < 0 || y >= marsRover.gridSize[1] {
+			return errors.New("obstacle out of bounds")
+		}
+	}
+
+	return nil
+}
+
 func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
 	for i := 0; i < len(moves); i = i + 1 {
 		if moves[i] == 'f' {
@@ -131,20 +159,45 @@ func moveRight(curDir *string) {
 
 func main() {
 	var moves string
+	var obs [][]int
+
+	var errDetails []error
 	err := takeInput(&moves)
-
-	fmt.Println("Your input string: ", moves)
-
-	err = validateString(moves)
 	if err != nil {
-		fmt.Print(err)
+		errDetails = append(errDetails, err)
+	}
+
+	err = takeObstaclesInput(&obs, 3)
+	if err != nil {
+		errDetails = append(errDetails, err)
+	}
+
+	if len(errDetails) > 0 {
+		fmt.Print(errDetails)
 	} else {
+		fmt.Println("Your input string: ", moves)
+		fmt.Println("Your obstacles array: ", obs)
+
 		rover := NewMarsRover([]int{0, 0}, "N", []int{50, 50})
 
-		res, err := executeMoves(rover, moves)
-		if err == nil {
-			fmt.Printf("Final Location is: %v", res)
-			fmt.Printf("Final Direction is: %s\n", rover.direction)
+		err = validateString(moves)
+		if err != nil {
+			errDetails = append(errDetails, err)
+		}
+
+		err = validateObstacles(obs, rover)
+		if err != nil {
+			errDetails = append(errDetails, err)
+		}
+
+		if len(errDetails) > 0 {
+			fmt.Print(errDetails)
+		} else {
+			res, err := executeMoves(rover, moves)
+			if err == nil {
+				fmt.Printf("Final Location is: %v\n", res)
+				fmt.Printf("Final Direction is: %s\n", rover.direction)
+			}
 		}
 	}
 }
