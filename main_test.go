@@ -322,7 +322,7 @@ func (suite *MainTestSuite) TestRightMove() {
 func (suite *MainTestSuite) TestObstaclesInput() {
 	t := suite.T()
 
-	t.Run("when incorrect obstacles array", func(t *testing.T) {
+	t.Run("when obstacle out of bounds", func(t *testing.T) {
 		suite.SetUpTest()
 
 		// current marsRover grid size = [50, 50]
@@ -337,5 +337,19 @@ func (suite *MainTestSuite) TestObstaclesInput() {
 
 		assert.Equal(t, obsErr, err)
 		require.Error(t, err)
+	})
+
+	t.Run("when correct obstacles array", func(t *testing.T) {
+		suite.SetUpTest()
+
+		obs := [][]int{
+			{1, 0},
+			{4, 6},
+			{49, 49},
+		}
+
+		err := validateObstacles(obs, &suite.marsRover)
+
+		require.NoError(t, err)
 	})
 }
