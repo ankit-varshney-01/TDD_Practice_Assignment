@@ -20,6 +20,8 @@ type MainTestSuite struct {
 	suite.Suite
 
 	marsRover MarsRover
+	moves     string
+	obstacles [][]int
 }
 
 func (suite *MainTestSuite) SetUpTest() {
@@ -27,6 +29,14 @@ func (suite *MainTestSuite) SetUpTest() {
 		location:  []int{0, 0},
 		direction: dir[1],
 		gridSize:  []int{50, 50},
+	}
+
+	suite.moves = "fflbbrff"
+
+	suite.obstacles = [][]int{
+		{48, 0},
+		{37, 1},
+		{46, 2},
 	}
 }
 
@@ -351,5 +361,22 @@ func (suite *MainTestSuite) TestObstaclesInput() {
 		err := validateObstacles(obs, &suite.marsRover)
 
 		require.NoError(t, err)
+	})
+}
+
+func (suite *MainTestSuite) TestObstaclesExecuteMoves() {
+	t := suite.T()
+
+	t.Run("when encounter only 1 obstacle", func(t *testing.T) {
+		suite.SetUpTest()
+
+		expPos := []int{49, 0}
+		expObsPos := []int{48, 0}
+		obsFound := errors.New("obstacle encountered, returning last position")
+		curPos, obsLoc, err := executeMoves(&suite.marsRover, suite.moves, suite.obstacles)
+
+		assert.Equal(t, expPos, curPos)
+		assert.Equal(t, expObsPos, obsLoc)
+		assert.Equal(t, obsFound, err)
 	})
 }
