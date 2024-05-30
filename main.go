@@ -68,6 +68,17 @@ func validateObstacles(obs [][]int, marsRover *MarsRover) (err error) {
 	return nil
 }
 
+func takeInputObsCnt(n *int) (err error) {
+	fmt.Println("Please input no of obstacles")
+	fmt.Scan(n)
+
+	if *n < 0 {
+		return errors.New("obstacles count cannot be less than 0")
+	}
+
+	return nil
+}
+
 func executeMoves(rover *MarsRover, moves string, obstacles [][]int) (loc []int, obsLoc []int, err error) {
 	for i := 0; i < len(moves); i = i + 1 {
 		if moves[i] == 'f' {
@@ -81,25 +92,6 @@ func executeMoves(rover *MarsRover, moves string, obstacles [][]int) (loc []int,
 		}
 		if moves[i] == 'r' {
 			moveRight(&rover.direction)
-		}
-
-		for j := 0; j < len(obstacles); j = j + 1 {
-			if rover.location[0] == obstacles[j][0] && rover.location[1] == obstacles[j][1] {
-				if moves[i] == 'f' {
-					moveBackward(rover)
-				}
-				if moves[i] == 'b' {
-					moveForward(rover)
-				}
-				if moves[i] == 'l' {
-					moveRight(&rover.direction)
-				}
-				if moves[i] == 'r' {
-					moveLeft(&rover.direction)
-				}
-
-				return rover.location, obstacles[j], errors.New("obstacle encountered, returning last position")
-			}
 		}
 
 		// To handle edge cases for out of bounds move
@@ -117,6 +109,43 @@ func executeMoves(rover *MarsRover, moves string, obstacles [][]int) (loc []int,
 
 		if rover.location[1] >= rover.gridSize[1] {
 			rover.location[1] = 0
+		}
+
+		// checking for obstacles
+		for j := 0; j < len(obstacles); j = j + 1 {
+			if rover.location[0] == obstacles[j][0] && rover.location[1] == obstacles[j][1] {
+				if moves[i] == 'f' {
+					moveBackward(rover)
+				}
+				if moves[i] == 'b' {
+					moveForward(rover)
+				}
+				if moves[i] == 'l' {
+					moveRight(&rover.direction)
+				}
+				if moves[i] == 'r' {
+					moveLeft(&rover.direction)
+				}
+
+				// To handle edge cases for out of bounds move
+				if rover.location[0] < 0 {
+					rover.location[0] = rover.gridSize[0] - 1
+				}
+
+				if rover.location[1] < 0 {
+					rover.location[1] = rover.gridSize[1] - 1
+				}
+
+				if rover.location[0] >= rover.gridSize[0] {
+					rover.location[0] = 0
+				}
+
+				if rover.location[1] >= rover.gridSize[1] {
+					rover.location[1] = 0
+				}
+
+				return rover.location, obstacles[j], errors.New("obstacle encountered, returning last position")
+			}
 		}
 	}
 	return rover.location, nil, nil
@@ -178,6 +207,7 @@ func moveRight(curDir *string) {
 
 func main() {
 	var moves string
+	var n int
 	var obs [][]int
 
 	var errDetails []error
@@ -187,7 +217,12 @@ func main() {
 		errDetails = append(errDetails, err)
 	}
 
-	err = takeObstaclesInput(&obs, 3)
+	err = takeInputObsCnt(&n)
+	if err != nil {
+		errDetails = append(errDetails, err)
+	}
+
+	err = takeObstaclesInput(&obs, n)
 	if err != nil {
 		errDetails = append(errDetails, err)
 	}
@@ -214,11 +249,13 @@ func main() {
 			fmt.Print(errDetails)
 		} else {
 			res, obsLoc, err := executeMoves(rover, moves, obs)
-			if err == nil {
-				fmt.Printf("Final Location is: %v\n", res)
-				fmt.Printf("Obstacle encountered at: %v", obsLoc)
-				fmt.Printf("Final Direction is: %s\n", rover.direction)
+			fmt.Println("executed moves")
+
+			if err != nil {
+				fmt.Printf("Obstacle encountered at: %v\n", obsLoc)
 			}
+			fmt.Printf("Final Location is: %v\n", res)
+			fmt.Printf("Final Direction is: %s\n", rover.direction)
 		}
 	}
 }

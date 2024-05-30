@@ -332,15 +332,14 @@ func (suite *MainTestSuite) TestRightMove() {
 func (suite *MainTestSuite) TestNoOfObstaclesInput() {
 	t := suite.T()
 
-	t.Run("when \"n\" is less than or equal to zero", func(t *testing.T) {
+	t.Run("when \"n\" is less than zero", func(t *testing.T) {
 		suite.SetUpTest()
 
+		obsCntErr := errors.New("obstacles count cannot be less than 0")
 		n := -1
-		err := takeInputObsCnt(n)
-		require.Error(t, err)
+		err := takeInputObsCnt(&n)
 
-		n = 0
-		err = takeInputObsCnt(n)
+		assert.Equal(t, obsCntErr, err)
 		require.Error(t, err)
 	})
 }
