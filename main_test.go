@@ -179,9 +179,9 @@ func (suite *MainTestSuite) TestBackwardMove() {
 	t.Run("when moving backward and forward", func(t *testing.T) {
 		suite.SetUpTest()
 
-		expLoc := []int{1, 0}
+		expLoc := []int{2, 0}
 		suite.marsRover.direction = dir[0]
-		actLoc, _, err := executeMoves(&suite.marsRover, "fffbbbb", suite.obstacles)
+		actLoc, _, err := executeMoves(&suite.marsRover, "ffbbbb", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -329,6 +329,21 @@ func (suite *MainTestSuite) TestRightMove() {
 	})
 }
 
+func (suite *MainTestSuite) TestNoOfObstaclesInput() {
+	t := suite.T()
+
+	t.Run("when \"n\" is less than or equal to zero", func(t *testing.T) {
+		suite.SetUpTest()
+
+		n := -1
+		err := takeInputObsCnt(n)
+		require.Error(t, err)
+
+		n = 0
+		err = takeInputObsCnt(n)
+		require.Error(t, err)
+	})
+}
 func (suite *MainTestSuite) TestObstaclesInput() {
 	t := suite.T()
 

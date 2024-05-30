@@ -181,6 +181,7 @@ func main() {
 	var obs [][]int
 
 	var errDetails []error
+
 	err := takeInput(&moves)
 	if err != nil {
 		errDetails = append(errDetails, err)
