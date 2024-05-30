@@ -34,7 +34,7 @@ func (suite *MainTestSuite) SetUpTest() {
 	suite.moves = "fflbbrff"
 
 	suite.obstacles = [][]int{
-		{48, 0},
+		{47, 0},
 		{37, 1},
 		{46, 2},
 	}
@@ -77,7 +77,7 @@ func (suite *MainTestSuite) TestForwardMove() {
 		suite.SetUpTest()
 
 		expLoc := []int{1, 0}
-		actLoc, err := executeMoves(&suite.marsRover, "f")
+		actLoc, _, err := executeMoves(&suite.marsRover, "f", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -86,7 +86,7 @@ func (suite *MainTestSuite) TestForwardMove() {
 		suite.SetUpTest()
 
 		expLoc := []int{2, 0}
-		actLoc, err := executeMoves(&suite.marsRover, "ff")
+		actLoc, _, err := executeMoves(&suite.marsRover, "ff", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -96,7 +96,7 @@ func (suite *MainTestSuite) TestForwardMove() {
 
 		expLoc := []int{49, 0}
 		suite.marsRover.direction = dir[0]
-		actLoc, err := executeMoves(&suite.marsRover, "f")
+		actLoc, _, err := executeMoves(&suite.marsRover, "f", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -106,7 +106,7 @@ func (suite *MainTestSuite) TestForwardMove() {
 
 		expLoc := []int{0, 1}
 		suite.marsRover.direction = dir[2]
-		actLoc, err := executeMoves(&suite.marsRover, "f")
+		actLoc, _, err := executeMoves(&suite.marsRover, "f", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -116,7 +116,7 @@ func (suite *MainTestSuite) TestForwardMove() {
 
 		expLoc := []int{0, 49}
 		suite.marsRover.direction = dir[3]
-		actLoc, err := executeMoves(&suite.marsRover, "f")
+		actLoc, _, err := executeMoves(&suite.marsRover, "f", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -131,7 +131,7 @@ func (suite *MainTestSuite) TestBackwardMove() {
 
 		expLoc := []int{1, 0}
 		suite.marsRover.direction = dir[0]
-		actLoc, err := executeMoves(&suite.marsRover, "b")
+		actLoc, _, err := executeMoves(&suite.marsRover, "b", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -141,7 +141,7 @@ func (suite *MainTestSuite) TestBackwardMove() {
 
 		expLoc := []int{2, 0}
 		suite.marsRover.direction = dir[0]
-		actLoc, err := executeMoves(&suite.marsRover, "bb")
+		actLoc, _, err := executeMoves(&suite.marsRover, "bb", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -151,7 +151,7 @@ func (suite *MainTestSuite) TestBackwardMove() {
 
 		expLoc := []int{49, 0}
 		suite.marsRover.direction = dir[1]
-		actLoc, err := executeMoves(&suite.marsRover, "b")
+		actLoc, _, err := executeMoves(&suite.marsRover, "b", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -161,7 +161,7 @@ func (suite *MainTestSuite) TestBackwardMove() {
 
 		expLoc := []int{0, 49}
 		suite.marsRover.direction = dir[2]
-		actLoc, err := executeMoves(&suite.marsRover, "b")
+		actLoc, _, err := executeMoves(&suite.marsRover, "b", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -171,7 +171,7 @@ func (suite *MainTestSuite) TestBackwardMove() {
 
 		expLoc := []int{0, 1}
 		suite.marsRover.direction = dir[3]
-		actLoc, err := executeMoves(&suite.marsRover, "b")
+		actLoc, _, err := executeMoves(&suite.marsRover, "b", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -181,7 +181,7 @@ func (suite *MainTestSuite) TestBackwardMove() {
 
 		expLoc := []int{1, 0}
 		suite.marsRover.direction = dir[0]
-		actLoc, err := executeMoves(&suite.marsRover, "fffbbbb")
+		actLoc, _, err := executeMoves(&suite.marsRover, "fffbbbb", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -196,7 +196,7 @@ func (suite *MainTestSuite) TestLeftMove() {
 
 		expDir := dir[3]
 		suite.marsRover.direction = dir[0]
-		_, err := executeMoves(&suite.marsRover, "l")
+		_, _, err := executeMoves(&suite.marsRover, "l", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -207,7 +207,7 @@ func (suite *MainTestSuite) TestLeftMove() {
 
 		expDir := dir[1]
 		suite.marsRover.direction = dir[0]
-		_, err := executeMoves(&suite.marsRover, "ll")
+		_, _, err := executeMoves(&suite.marsRover, "ll", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -217,7 +217,7 @@ func (suite *MainTestSuite) TestLeftMove() {
 		suite.SetUpTest()
 
 		expDir := dir[2]
-		_, err := executeMoves(&suite.marsRover, "l")
+		_, _, err := executeMoves(&suite.marsRover, "l", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -228,7 +228,7 @@ func (suite *MainTestSuite) TestLeftMove() {
 
 		expDir := dir[0]
 		suite.marsRover.direction = dir[2]
-		_, err := executeMoves(&suite.marsRover, "l")
+		_, _, err := executeMoves(&suite.marsRover, "l", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -239,7 +239,7 @@ func (suite *MainTestSuite) TestLeftMove() {
 
 		expDir := dir[1]
 		suite.marsRover.direction = dir[3]
-		_, err := executeMoves(&suite.marsRover, "l")
+		_, _, err := executeMoves(&suite.marsRover, "l", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -250,7 +250,7 @@ func (suite *MainTestSuite) TestLeftMove() {
 
 		expLoc := []int{48, 1}
 		suite.marsRover.direction = dir[0]
-		actLoc, err := executeMoves(&suite.marsRover, "fflb")
+		actLoc, _, err := executeMoves(&suite.marsRover, "fflb", suite.obstacles)
 
 		assert.Equal(t, expLoc, actLoc)
 		require.NoError(t, err)
@@ -265,7 +265,7 @@ func (suite *MainTestSuite) TestRightMove() {
 
 		expDir := dir[2]
 		suite.marsRover.direction = dir[0]
-		_, err := executeMoves(&suite.marsRover, "r")
+		_, _, err := executeMoves(&suite.marsRover, "r", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -276,7 +276,7 @@ func (suite *MainTestSuite) TestRightMove() {
 
 		expDir := dir[1]
 		suite.marsRover.direction = dir[0]
-		_, err := executeMoves(&suite.marsRover, "rr")
+		_, _, err := executeMoves(&suite.marsRover, "rr", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -286,7 +286,7 @@ func (suite *MainTestSuite) TestRightMove() {
 		suite.SetUpTest()
 
 		expDir := dir[3]
-		_, err := executeMoves(&suite.marsRover, "r")
+		_, _, err := executeMoves(&suite.marsRover, "r", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -297,7 +297,7 @@ func (suite *MainTestSuite) TestRightMove() {
 
 		expDir := dir[1]
 		suite.marsRover.direction = dir[2]
-		_, err := executeMoves(&suite.marsRover, "r")
+		_, _, err := executeMoves(&suite.marsRover, "r", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -308,7 +308,7 @@ func (suite *MainTestSuite) TestRightMove() {
 
 		expDir := dir[0]
 		suite.marsRover.direction = dir[3]
-		_, err := executeMoves(&suite.marsRover, "r")
+		_, _, err := executeMoves(&suite.marsRover, "r", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expDir, actDir)
@@ -320,7 +320,7 @@ func (suite *MainTestSuite) TestRightMove() {
 		expLoc := []int{49, 1}
 		expdir := dir[3]
 		suite.marsRover.direction = dir[0]
-		actLoc, err := executeMoves(&suite.marsRover, "fflblfr")
+		actLoc, _, err := executeMoves(&suite.marsRover, "fflblfr", suite.obstacles)
 		actDir := suite.marsRover.direction
 
 		assert.Equal(t, expLoc, actLoc)
@@ -370,9 +370,12 @@ func (suite *MainTestSuite) TestObstaclesExecuteMoves() {
 	t.Run("when encounter only 1 obstacle", func(t *testing.T) {
 		suite.SetUpTest()
 
-		expPos := []int{49, 0}
-		expObsPos := []int{48, 0}
+		expPos := []int{48, 0}
+		expObsPos := []int{47, 0}
 		obsFound := errors.New("obstacle encountered, returning last position")
+
+		suite.marsRover.direction = dir[0]
+		suite.moves = "ffflbrl"
 		curPos, obsLoc, err := executeMoves(&suite.marsRover, suite.moves, suite.obstacles)
 
 		assert.Equal(t, expPos, curPos)

@@ -68,7 +68,7 @@ func validateObstacles(obs [][]int, marsRover *MarsRover) (err error) {
 	return nil
 }
 
-func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
+func executeMoves(rover *MarsRover, moves string, obstacles [][]int) (loc []int, obsLoc []int, err error) {
 	for i := 0; i < len(moves); i = i + 1 {
 		if moves[i] == 'f' {
 			moveForward(rover)
@@ -81,6 +81,25 @@ func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
 		}
 		if moves[i] == 'r' {
 			moveRight(&rover.direction)
+		}
+
+		for j := 0; j < len(obstacles); j = j + 1 {
+			if rover.location[0] == obstacles[j][0] && rover.location[1] == obstacles[j][1] {
+				if moves[i] == 'f' {
+					moveBackward(rover)
+				}
+				if moves[i] == 'b' {
+					moveForward(rover)
+				}
+				if moves[i] == 'l' {
+					moveRight(&rover.direction)
+				}
+				if moves[i] == 'r' {
+					moveLeft(&rover.direction)
+				}
+
+				return rover.location, obstacles[j], errors.New("obstacle encountered, returning last position")
+			}
 		}
 
 		// To handle edge cases for out of bounds move
@@ -100,7 +119,7 @@ func executeMoves(rover *MarsRover, moves string) (loc []int, err error) {
 			rover.location[1] = 0
 		}
 	}
-	return rover.location, nil
+	return rover.location, nil, nil
 }
 
 func moveForward(rover *MarsRover) {
@@ -193,9 +212,10 @@ func main() {
 		if len(errDetails) > 0 {
 			fmt.Print(errDetails)
 		} else {
-			res, err := executeMoves(rover, moves)
+			res, obsLoc, err := executeMoves(rover, moves, obs)
 			if err == nil {
 				fmt.Printf("Final Location is: %v\n", res)
+				fmt.Printf("Obstacle encountered at: %v", obsLoc)
 				fmt.Printf("Final Direction is: %s\n", rover.direction)
 			}
 		}
